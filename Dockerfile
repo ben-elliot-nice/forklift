@@ -12,6 +12,8 @@ RUN yarn
 
 COPY --chown=node:node . .
 
+RUN npx prisma generate
+
 USER node
 
 
@@ -45,5 +47,7 @@ FROM node:18-alpine As production
 
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
+COPY --chown=node:node --from=build /usr/src/app/package.json ./
+
 
 CMD [ "node", "dist/main.js" ]
