@@ -24,9 +24,7 @@ services:
       dockerfile: Dockerfile
       context: .
       # Only will build development stage from our dockerfile
-      target: development
-    volumes:
-      - .:/usr/src/app
+      target: production
     environment:
       - ROLE=worker
     env_file:
@@ -36,6 +34,7 @@ services:
     depends_on:
       - redis
       - postgres
+    platform: "linux/amd64"
   redis: # Name of container
     image: redis
     ports:
