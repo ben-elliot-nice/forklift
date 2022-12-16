@@ -26,6 +26,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Req() req: Request) {
+    console.log(req.user);
     return this.authService.login(req.user);
   }
 
@@ -44,6 +45,8 @@ export class AuthController {
       const e = result.error;
       if (e instanceof UserExistsError) {
         throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
+      } else {
+        throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
   }
