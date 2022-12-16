@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -18,14 +19,20 @@ async function bootstrap() {
   }
 
   let app;
+  let config;
+  let port;
   if (role === 'app') {
     app = await NestFactory.create(AppModule);
+    app.useGlobalPipes(new ValidationPipe());
+    config = app.get(ConfigService);
+    port = config.get('app.port');
   } else {
     app = await NestFactory.create(WorkerModule);
+    config = app.get(ConfigService);
+    port = config.get('worker.port');
   }
 
-  const config = app.get(ConfigService);
-  const port = config.get('port');
+  console.log(`Starting app listening on port: ${port}`);
   await app.listen(port);
 }
 bootstrap();
