@@ -14,7 +14,7 @@ export class AuthService {
     const userFoundResult = await this.usersService.findOneByEmail(username);
 
     if (userFoundResult.isOk) {
-      const { passwordHash, id, ...result } = userFoundResult.value;
+      const { passwordHash, ...result } = userFoundResult.value;
       const isMatch = await bcrypt.compare(pass, passwordHash);
       if (isMatch) {
         return result;
@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+    const payload = { email: user.email, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload),
     };
