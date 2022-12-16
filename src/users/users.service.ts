@@ -7,8 +7,6 @@ import { Result } from '@badrap/result';
 import { UserNotFoundError } from './errors/user-not-found.error';
 import { UserCreatedDto } from './dtos/user-created.dto';
 
-// This should be a real class/interface representing a user entity
-
 @Injectable()
 export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
@@ -17,6 +15,21 @@ export class UsersService {
     const findUserResult = await this.usersRepository.findOneUser({
       where: {
         email: email,
+      },
+    });
+
+    if (findUserResult.isOk) {
+      const foundUser = findUserResult.value;
+      return Result.ok(foundUser);
+    } else {
+      return Result.err(new UserNotFoundError('Requested user does not exist'));
+    }
+  }
+
+  async findOneById(id: string): Promise<Result<User, Error>> {
+    const findUserResult = await this.usersRepository.findOneUser({
+      where: {
+        id: id,
       },
     });
 
