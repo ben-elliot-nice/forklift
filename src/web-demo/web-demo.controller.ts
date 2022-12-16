@@ -8,7 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateWebDemoDto } from './dtos/create-web-demo.dto';
 import { User } from '@prisma/client';
 import { UsersService } from 'src/users/users.service';
