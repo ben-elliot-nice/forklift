@@ -1,49 +1,53 @@
 services:
-  app:
-    build:
-      dockerfile: Dockerfile
-      context: .
-      # Only will build development stage from our dockerfile
-      target: production
-    # volumes:
-    #   - .:/usr/src/app
-    environment:
-      - ROLE=app
-    env_file:
-    - .env
-    # Run a command against the development stage of the image
-    command: yarn run start:prod
-    ports:
-      - 3000:3000
-    depends_on:
-      - redis
-      - postgres
-    platform: "linux/amd64" # Problem with prisma on arm64. See - https://github.com/prisma/prisma/issues/8478
-  worker:
-    build:
-      dockerfile: Dockerfile
-      context: .
-      # Only will build development stage from our dockerfile
-      target: production
-    environment:
-      - ROLE=worker
-    env_file:
-    - .env
-    # Run a command against the development stage of the image
-    command: yarn run start:prod
-    depends_on:
-      - redis
-      - postgres
-    platform: "linux/amd64"
+  # app:
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context: .
+  #     # Only will build development stage from our dockerfile
+  #     target: production
+  #   # volumes:
+  #   #   - .:/usr/src/app
+  #   environment:
+  #     - ROLE=app
+  #   env_file:
+  #   - .env
+  #   # Run a command against the development stage of the image
+  #   command: yarn run start:prod
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - redis
+  #     - postgres
+  #   platform: "linux/amd64" # Problem with prisma on arm64. See - https://github.com/prisma/prisma/issues/8478
+  # worker:
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context: .
+  #     # Only will build development stage from our dockerfile
+  #     target: production
+  #   environment:
+  #     - ROLE=worker
+  #   env_file:
+  #   - .env
+  #   # Run a command against the development stage of the image
+  #   command: yarn run start:prod
+  #   depends_on:
+  #     - redis
+  #     - postgres
+  #   platform: "linux/amd64"
   redis: # Name of container
     image: redis
     ports:
       - 6379:6379
+    env_file:
+      - .env-docker
     volumes:
       - redis:/data
   postgres:
     image: postgres
     restart: always
+    env_file:
+      - .env-docker
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
