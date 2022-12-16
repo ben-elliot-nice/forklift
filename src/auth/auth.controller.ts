@@ -13,8 +13,8 @@ import { CreateUserDto } from 'src/users/dtos/create-user.dto';
 import { UserExistsError } from 'src/users/errors/user-exists.error';
 import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './jwt-auth.guard';
-import { LocalAuthGuard } from './local-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Controller('auth')
 export class AuthController {
