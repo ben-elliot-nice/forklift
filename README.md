@@ -5,6 +5,7 @@
 - Implement traefik for managing routes
 - Standardise logging
 - Testing
+- Fix auth approach, ensure there are no holes and data passed around is standardised
 
 
 ## In Progress

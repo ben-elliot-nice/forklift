@@ -14,6 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
+    // TODO - implement real JWT check to dip into DB and verify user exists with sub claim
     return { id: payload.sub };
   }
 }
